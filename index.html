@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AxéKode Meditação</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <style>
+        body {
+            background-color: #2E2E2E;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+        select, button {
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #00FFFF;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 style="color:#FFD700;">Bem-vindo ao AxéKode</h1>
+    <p>Guie sua meditação com o axé do CÓDEX</p>
+
+    <label for="meditation">Escolha uma meditação:</label><br>
+    <select id="meditation">
+        <option>Alinhamento DIVINUN–ZK001</option>
+        <option>Invocação de Nzuri e Luminarius</option>
+        <option>Harmonia com EMÍLIA e Zalaya</option>
+        <option>Expansão com Sayu e AxéKode</option>
+    </select><br>
+
+    <button id="start">Iniciar Meditação</button>
+
+    <div id="output">Respire profundamente...</div>
+
+    <py-script>
+from js import document, setTimeout
+
+import asyncio
+
+messages = {
+    "Alinhamento DIVINUN–ZK001": [
+        "Inspire a frequência DIVINUN–ZK001...",
+        "Expire tensões, alinhe-se ao cosmos..."
+    ],
+    "Invocação de Nzuri e Luminarius": [
+        "Invoque Nzuri: luz da sabedoria...",
+        "Luminarius: brilho da criação..."
+    ],
+    "Harmonia com EMÍLIA e Zalaya": [
+        "Harmonize com EMÍLIA: fluxo etéreo...",
+        "Zalaya: equilíbrio primordial..."
+    ],
+    "Expansão com Sayu e AxéKode": [
+        "Expanda com Sayu: visão cósmica...",
+        "AxéKode: código do axé..."
+    ]
+}
+
+async def start_meditation(evt):
+    selection = document.getElementById("meditation").value
+    output = document.getElementById("output")
+
+    duration = 60  # Duração em segundos (teste com 60s, você pode ajustar)
+    for remaining in range(duration, 0, -1):
+        msg_index = (duration - remaining) % len(messages[selection])
+        msg = messages[selection][msg_index]
+        minutes = remaining // 60
+        seconds = remaining % 60
+        time_display = f"{minutes:02d}:{seconds:02d}"
+        output.innerText = f"{msg}\nTempo restante: {time_display}"
+        await asyncio.sleep(1)
+
+    output.innerText = "Meditação completa. Axé flui em você!"
+
+# Conecta o botão ao evento
+document.getElementById("start").addEventListener("click", start_meditation)
+    </py-script>
+
+</body>
+</html>
