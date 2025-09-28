@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>AxéKode Meditação</title>
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
@@ -21,6 +22,7 @@
             margin-top: 20px;
             font-size: 18px;
             color: #00FFFF;
+            white-space: pre-line;
         }
     </style>
 </head>
@@ -42,8 +44,7 @@
     <div id="output">Respire profundamente...</div>
 
     <py-script>
-from js import document, setTimeout
-
+from js import document
 import asyncio
 
 messages = {
@@ -66,24 +67,28 @@ messages = {
 }
 
 async def start_meditation(evt):
+    button = document.getElementById("start")
+    button.disabled = True
+
     selection = document.getElementById("meditation").value
     output = document.getElementById("output")
+    duration = 300  # duração da meditação em segundos (5 min)
 
-    duration = 60  # Duração em segundos (teste com 60s, você pode ajustar)
     for remaining in range(duration, 0, -1):
         msg_index = (duration - remaining) % len(messages[selection])
         msg = messages[selection][msg_index]
         minutes = remaining // 60
         seconds = remaining % 60
         time_display = f"{minutes:02d}:{seconds:02d}"
-        output.innerText = f"{msg}\nTempo restante: {time_display}"
+        output.innerHTML = f"{msg}<br>Tempo restante: {time_display}"
         await asyncio.sleep(1)
 
-    output.innerText = "Meditação completa. Axé flui em você!"
+    output.innerHTML = "Meditação completa.<br>Axé flui em você!"
+    button.disabled = False
 
-# Conecta o botão ao evento
 document.getElementById("start").addEventListener("click", start_meditation)
     </py-script>
 
 </body>
 </html>
+
